@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 9" name="Feebl">
+  <DataContextMoniker Name="/FeeblDataContext" />
+  <nestedChildShapes>
+    <classShape Id="dec9fcd9-beaa-47cb-b583-80d70b451a4d" absoluteBounds="3, 3.125, 4.375, 2.1554996744791666">
+      <DataClassMoniker Name="/FeeblDataContext/Process" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6212da7d-be89-4c0b-99fd-6fc1d9b63f58" absoluteBounds="3.0149999999999997, 3.585, 4.3450000000000006, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9d2c78af-4e24-43ce-a955-dd4bd92a327d" absoluteBounds="3, 1.5, 2, 1.1939925130208327">
+      <DataClassMoniker Name="/FeeblDataContext/Application" />
+      <nestedChildShapes>
+        <elementListCompartment Id="908d2fd7-7912-43f0-90b1-2ca8f91dc23f" absoluteBounds="3.0149999999999997, 1.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c7825cc5-f917-4ec2-922e-84106e27c9db" absoluteBounds="5.375, 1.5, 2, 1.1939925130208327">
+      <DataClassMoniker Name="/FeeblDataContext/Customer" />
+      <nestedChildShapes>
+        <elementListCompartment Id="14ab2438-309d-4f2a-b3ec-9e83d3509846" absoluteBounds="5.39, 1.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1d93ebd9-dc1c-4619-8c07-f7fb144c661e" absoluteBounds="0.5, 3.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/FeeblDataContext/Event" />
+      <nestedChildShapes>
+        <elementListCompartment Id="20ecc902-87ec-4cc9-a00f-1763cd60a4ae" absoluteBounds="0.51500000000000057, 4.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1543f1fc-951f-4e32-9197-df1dcc1a072e" absoluteBounds="3, 5.625, 4.375, 3.1170068359375005">
+      <DataClassMoniker Name="/FeeblDataContext/Demand" />
+      <nestedChildShapes>
+        <elementListCompartment Id="24a41966-477c-4a87-81ef-7734bf53ef84" absoluteBounds="3.0149999999999997, 6.085, 4.3450000000000006, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.98965135665187 : 2.69399251302083); (3.98965135665187 : 3.125)]" fixedFrom="Caller" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/Application/Application_Process" />
+      <nodes>
+        <classShapeMoniker Id="9d2c78af-4e24-43ce-a955-dd4bd92a327d" />
+        <classShapeMoniker Id="dec9fcd9-beaa-47cb-b583-80d70b451a4d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.375 : 2.69399251302083); (6.375 : 3.125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/Customer/Customer_Process" />
+      <nodes>
+        <classShapeMoniker Id="c7825cc5-f917-4ec2-922e-84106e27c9db" />
+        <classShapeMoniker Id="dec9fcd9-beaa-47cb-b583-80d70b451a4d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.1875 : 5.28049967447917); (5.1875 : 5.625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/Process/Process_Demand" />
+      <nodes>
+        <classShapeMoniker Id="dec9fcd9-beaa-47cb-b583-80d70b451a4d" />
+        <classShapeMoniker Id="1543f1fc-951f-4e32-9197-df1dcc1a072e" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3 : 4.51524983723958); (2.5 : 4.51524983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/Process/Process_Event" />
+      <nodes>
+        <classShapeMoniker Id="dec9fcd9-beaa-47cb-b583-80d70b451a4d" />
+        <classShapeMoniker Id="1d93ebd9-dc1c-4619-8c07-f7fb144c661e" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="8483434a-b203-4b30-9d8e-4f5ebda532c3" absoluteBounds="7.875, 0.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/FeeblDataContext/User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a7bd6cd4-6838-4208-947f-035461709d08" absoluteBounds="7.8900000000000006, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(6.34976324014031 : 1.5); (6.34976324014031 : 0.9999995); (7.875 : 0.9999995)]" fixedFrom="Caller" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/Customer/Customer_User" />
+      <nodes>
+        <classShapeMoniker Id="c7825cc5-f917-4ec2-922e-84106e27c9db" />
+        <classShapeMoniker Id="8483434a-b203-4b30-9d8e-4f5ebda532c3" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4 : 1.5); (4 : 0.71874725); (7.875 : 0.71874725)]" manuallyRouted="true" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/Application/Application_User" />
+      <nodes>
+        <classShapeMoniker Id="9d2c78af-4e24-43ce-a955-dd4bd92a327d" />
+        <classShapeMoniker Id="8483434a-b203-4b30-9d8e-4f5ebda532c3" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="39854854-38b1-451c-a4fa-fbd7d91940e2" absoluteBounds="0.5, 6.625, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/FeeblDataContext/History" />
+      <nestedChildShapes>
+        <elementListCompartment Id="014ec70e-23a8-465e-a304-648a2b80a7de" absoluteBounds="0.51500000000000057, 7.0850000000000009, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3 : 7.68350341796875); (2.5 : 7.68350341796875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/Demand/Demand_History" />
+      <nodes>
+        <classShapeMoniker Id="1543f1fc-951f-4e32-9197-df1dcc1a072e" />
+        <classShapeMoniker Id="39854854-38b1-451c-a4fa-fbd7d91940e2" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="8805a9d2-3552-4187-b0a5-8519d42ac985" absoluteBounds="7.875, 3.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/FeeblDataContext/UserSubscription" />
+      <nestedChildShapes>
+        <elementListCompartment Id="954d1d06-06c9-4898-a46e-0ada4499fd33" absoluteBounds="7.8900000000000006, 4.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.875 : 2.65549967447917); (8.875 : 3.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/User/User_UserSubscription" />
+      <nodes>
+        <classShapeMoniker Id="8483434a-b203-4b30-9d8e-4f5ebda532c3" />
+        <classShapeMoniker Id="8805a9d2-3552-4187-b0a5-8519d42ac985" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.375 : 4.51524983723958); (7.875 : 4.51524983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FeeblDataContext/Process/Process_UserSubscription" />
+      <nodes>
+        <classShapeMoniker Id="dec9fcd9-beaa-47cb-b583-80d70b451a4d" />
+        <classShapeMoniker Id="8805a9d2-3552-4187-b0a5-8519d42ac985" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="67e558af-0988-4b50-be67-e1243dad0fd7" absoluteBounds="7.875, 7, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/FeeblDataContext/Log" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cd95abbb-94d0-4078-a1bf-cddc358a84a2" absoluteBounds="7.8900000000000006, 7.4600000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

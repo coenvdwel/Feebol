@@ -1,0 +1,110 @@
+﻿@using Feebl.Utilities
+@model IEnumerable<Feebl.Controllers.ProcessTile>
+
+@{var p1 = Model.First();}
+@{int counter = 0;}
+@{bool groupView = Model.All(x => String.IsNullOrEmpty(x.GroupID)) || Model.Select(x => x.GroupID).Distinct().Count() == 1;}
+
+<div class="tiles">
+
+  <h2>@p1.Customer's @p1.Application @(groupView && !String.IsNullOrEmpty(p1.GroupID) ? "(" + p1.GroupID + ")" : "")</h2>
+  
+  <div class="tile bg-color-darken outline-color-darken image" data-role="tile-slider" data-param-direction="@Lists.Directions[counter++ % 4]">
+    @if (groupView && !String.IsNullOrEmpty(p1.GroupID))
+    {
+      <div class="tile-content">
+        <a class="back-button big" href="@Url.Content("~/Process")?customerID=@p1.CustomerID&amp;applicationID=@p1.ApplicationID"></a>
+      </div>
+    }
+    else if (((FeeblIdentity)FeeblPrincipal.Current.Identity).ApplicationID.HasValue)
+    {
+      <div class="tile-content">
+        <a class="back-button big" href="@Url.Content("~/Customers")"></a>
+      </div>
+    }
+    else if (((FeeblIdentity)FeeblPrincipal.Current.Identity).CustomerID.HasValue)
+    {
+      <div class="tile-content">
+        <a class="back-button big" href="@Url.Content("~/Applications")"></a>
+      </div>
+    }
+    else
+    {
+      <div class="tile-content">
+        <a class="back-button big" href="@Url.Content("~/Applications")?customerID=@p1.CustomerID">
+          <br /><br /><span style="color: gray">@p1.Customer</span>
+        </a>
+      </div>
+      <div class="tile-content">
+        <a class="back-button big" href="@Url.Content("~/Customers")?applicationID=@p1.ApplicationID">
+          <br /><br /><span style="color: gray">@p1.Application</span>
+        </a>
+      </div>
+    }
+  </div>
+  
+  @if (!groupView)
+  {
+    foreach (var pt in Model.GroupBy(x => new { x.GroupID, x.ApplicationID, x.CustomerID }))
+    {
+      var status = pt.All(x => x.Status == "fg-color-white bg-color-green") ? "fg-color-white bg-color-green" : "fg-color-white bg-color-red";
+      <a href="@Url.Content("~/Process")?customerID=@pt.Key.CustomerID&amp;applicationID=@pt.Key.ApplicationID&amp;groupID=@pt.Key.GroupID">
+        <div class="tile outline-color-pink @status">
+          <div class="tile-content">
+            <br />
+            <h1>
+              @pt.Key.GroupID
+            </h1>
+          </div>
+        </div>
+      </a>
+    }
+  }
+  else
+  {
+    foreach (var pt in Model)
+    {
+      var selected = (pt.SubscribedEmail || pt.SubscribedSMS) ? "selected" : "";
+       <a href="@Url.Content("~/Demand")?processID=@pt.ProcessID">
+         <div class="tile outline-color-pink @pt.Status @selected">
+           <div class="tile-content">
+             <br />
+             <h1>
+               @if (pt.FailsToday != 0)
+               {
+                 <span class="label important">@pt.FailsToday</span>
+               }
+
+               @pt.Name
+             </h1>
+           </div>
+           <div class="brand">
+             <span class="name">@(String.IsNullOrEmpty(pt.ErrorMessage) && pt.LastRunTime.HasValue ? Feebl.DateTimeExtensions.ConvertToCET(pt.LastRunTime.Value).ToString("MM/dd HH:mm") : pt.ErrorMessage)</span>
+             <div class="badge @pt.Badge"></div>
+           </div>
+         </div>
+       </a>
+    }
+  }
+
+  <div style="margin-bottom: 30px;" class="tile bg-color-blue fg-color-white outline-color-pink" data-role="tile-slider" data-param-period="5000" data-param-direction="@Lists.Directions[counter++ % 4]">
+    <div class="tile-content">
+      <br /><br /><br /><br />
+      <img src="@Url.Content("~/Content/images/logo.png")" alt="Diract" width="110" />
+    </div>
+    <div class="tile-content bg-color-blueDark">
+      build 6213<br />
+      revision 26908<br /><br /><br /><br />
+      <img src="@Url.Content("~/Content/images/payoff.png")" alt="Diract" width="110" />
+    </div>
+    <div class="brand">
+      <span class="name">@Feebl.DateTimeExtensions.ConvertToCET(DateTime.UtcNow).ToString("MM/dd HH:mm")</span>
+      <div class="badge fg-color-white activity"></div>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  setTimeout("location.reload(true);", 30000);
+</script>

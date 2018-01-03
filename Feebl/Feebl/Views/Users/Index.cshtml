@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Feebl.Controllers.UserTile>
+
+<div class="tiles">
+
+  @foreach (var g in Model.GroupBy(u => (u.Customer + " " + u.Application).Trim()))
+  {
+    <div class="tile-group">
+
+      <h2>@(String.IsNullOrEmpty(g.Key) ? "Default" : g.Key)</h2>
+
+      @foreach(var u in g)
+      {  
+        <a href="@Url.Content("~/Users/Edit/" + u.UserID)">
+          <div class="tile outline-color-pink bg-color-grey">
+            <div class="tile-content">
+              <br />
+              <h1>
+                @u.Name
+              </h1>
+
+              <br />@u.Mobile
+            </div>
+            <div class="brand">
+              <span class="name">&nbsp; <a href="@Url.Content("~/Subscriptions/Index/" + u.UserID)" class="icon-book" style="font-size: 20px;">&nbsp;</a></span>
+              @if(u.IsAdmin)
+              {
+                <div class="badge bg-color-pink alert"></div>
+              }
+            </div>
+          </div>
+        </a>
+      }
+
+    </div>
+  }
+
+</div>
+
+<div>
+  <a href="@Url.Content("~/Users/Create")" class="icon-plus-2" style="font-size: 30px;">&nbsp;</a><br />
+  <a href="@Url.Content("~/Users/Broadcast")" class="icon-comments" style="font-size: 30px;">&nbsp;</a><br />
+</div>

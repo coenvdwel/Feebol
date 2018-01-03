@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Feebl" Class="FeeblDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=kqe71qwz91.database.windows.net;Initial Catalog=Feebl;User ID=feebl_db_login" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="FeeblDB" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Process" Member="Processes">
+    <Type Name="Process">
+      <Column Name="ApplicationID" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerID" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Storage="_ProcessID" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ProcessID" Storage="_EventID" AutoSync="Never" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LastRunTime" Type="System.DateTime" DbType="DateTime NULL" CanBeNull="true" />
+      <Column Name="URL" Type="System.String" DbType="nvarchar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="GroupID" Type="System.String" DbType="nvarchar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Process_Event" Member="Events" Storage="_Logs" ThisKey="ProcessID" OtherKey="ProcessID" Type="Event" />
+      <Association Name="Process_Demand" Member="Demands" ThisKey="ProcessID" OtherKey="ProcessID" Type="Demand" />
+      <Association Name="Process_UserSubscription" Member="UserSubscriptions" ThisKey="ProcessID" OtherKey="ProcessID" Type="UserSubscription" />
+      <Association Name="Application_Process" Member="Application" ThisKey="ApplicationID" OtherKey="ApplicationID" Type="Application" IsForeignKey="true" />
+      <Association Name="Customer_Process" Member="Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Application" Member="Applications">
+    <Type Name="Application">
+      <Column Name="ApplicationID" AutoSync="Never" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="nvarchar(250)" CanBeNull="true" />
+      <Association Name="Application_Process" Member="Processes" Storage="_Events" ThisKey="ApplicationID" OtherKey="ApplicationID" Type="Process" />
+      <Association Name="Application_User" Member="Users" ThisKey="ApplicationID" OtherKey="ApplicationID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customer" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="CustomerID" AutoSync="Never" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="nvarchar(250)" CanBeNull="true" />
+      <Association Name="Customer_Process" Member="Processes" Storage="_Events" ThisKey="CustomerID" OtherKey="CustomerID" Type="Process" />
+      <Association Name="Customer_User" Member="Users" ThisKey="CustomerID" OtherKey="CustomerID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Event" Member="Events">
+    <Type Name="Event">
+      <Column Name="ProcessID" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
+      <Column Name="CreationTime" Storage="_LastUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Counter" Storage="_Data" Type="System.Int32" DbType="int NULL" CanBeNull="true" />
+      <Column Name="EventID" AutoSync="Never" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="Process_Event" Member="Process" Storage="_Event" ThisKey="ProcessID" OtherKey="ProcessID" Type="Process" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Demand" Member="Demands">
+    <Type Name="Demand">
+      <Column Name="ProcessID" Storage="_EventID" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
+      <Column Name="DemandID" AutoSync="Never" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IsMet" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
+      <Column Name="ErrorMessage" Type="System.String" DbType="nvarchar(MAX) NULL" CanBeNull="true" />
+      <Column Name="CronExpression" Type="System.String" DbType="nvarchar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MaxRunTime" Type="System.Int32" DbType="int NOT NULL" CanBeNull="true" />
+      <Column Name="QuantityTime" Type="System.Int32" DbType="int NULL" CanBeNull="true" />
+      <Column Name="QuantityValue" Type="System.Int32" DbType="int NULL" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="nvarchar(MAX) NULL" CanBeNull="true" />
+      <Column Name="NextRunTime" Type="System.DateTime" DbType="DATETIME NULL" CanBeNull="true" />
+      <Column Name="UtcOffset" Type="System.Int32" DbType="int NOT NULL DEFAULT(1)" CanBeNull="true" />
+      <Column Name="Priority" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
+      <Association Name="Demand_History" Member="Histories" ThisKey="DemandID" OtherKey="DemandID" Type="History" />
+      <Association Name="Process_Demand" Member="Process" Storage="_Event" ThisKey="ProcessID" OtherKey="ProcessID" Type="Process" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.User" Member="Users">
+    <Type Name="User">
+      <Column Name="Email" Type="System.String" DbType="nvarchar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="nvarchar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ApplicationID" Type="System.Int32" DbType="int NULL" CanBeNull="true" />
+      <Column Name="CustomerID" Type="System.Int32" DbType="int NULL" CanBeNull="true" />
+      <Column Name="IsAdmin" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" AutoSync="Never" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Mobile" Type="System.String" DbType="nvarchar(50)" CanBeNull="true" />
+      <Association Name="User_UserSubscription" Member="UserSubscriptions" ThisKey="UserID" OtherKey="UserID" Type="UserSubscription" />
+      <Association Name="Customer_User" Member="Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="Customer" IsForeignKey="true" />
+      <Association Name="Application_User" Member="Application" ThisKey="ApplicationID" OtherKey="ApplicationID" Type="Application" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.History" Member="Histories">
+    <Type Name="History">
+      <Column Name="HistoryID" AutoSync="Never" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DemandID" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.String" DbType="nvarchar(50) NULL" CanBeNull="true" />
+      <Column Name="Counter" Type="System.Int32" DbType="int NULL" CanBeNull="true" />
+      <Column Name="CreationTime" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
+      <Column Name="Remark" Type="System.String" DbType="nvarchar(MAX) NULL" CanBeNull="true" />
+      <Column Name="IsExported" Type="System.Boolean" DbType="bit NOT NULL default(0)" CanBeNull="false" />
+      <Association Name="Demand_History" Member="Demand" ThisKey="DemandID" OtherKey="DemandID" Type="Demand" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserSubscription" Member="UserSubscriptions">
+    <Type Name="UserSubscription">
+      <Column Name="UserID" Type="System.Int32" DbType="int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProcessID" Storage="_DemandID" Type="System.Int32" DbType="int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SMS" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_UserSubscription" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="Process_UserSubscription" Member="Process" ThisKey="ProcessID" OtherKey="ProcessID" Type="Process" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Log" Member="Logs">
+    <Type Name="Log">
+      <Column Name="LogID" AutoSync="Never" Type="System.Int32" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="nvarchar(255)" CanBeNull="false" />
+      <Column Name="StackTrace" Type="System.String" DbType="nvarchar(MAX) NULL" CanBeNull="false" />
+      <Column Name="CreationTime" Type="System.DateTime" DbType="datetime" CanBeNull="false" />
+      <Column Name="LogType" Type="System.String" DbType="nvarchar(255)" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

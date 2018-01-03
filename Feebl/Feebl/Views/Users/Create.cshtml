@@ -1,0 +1,59 @@
+﻿@model Feebl.User
+@{var user = (Feebl.Utilities.FeeblIdentity)Feebl.Utilities.FeeblPrincipal.Current.Identity;}
+
+<div class="tile bg-color-darken outline-color-darken image">
+  <div class="tile-content">
+    <a class="back-button big" href="@Url.Content("~/Users")"></a>
+  </div>
+</div>
+
+<div class="tile triple double-vertical outline-color-pink bg-color-orange">
+  <div class="tile-content">
+    
+    @using (Html.BeginForm())
+    {
+      <table class="compact">
+        <tr style="margin:0;padding:0;"><td>Email</td><td>
+          <div class="input-control text">
+            <input type="text" name="Email" autocomplete="off" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        <tr><td>Mobile</td><td>
+          <div class="input-control text">
+            <input type="text" placeholder="(optional)" name="Mobile" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        @if(!user.ApplicationID.HasValue)
+        {
+        <tr><td>Application</td><td>
+          <div class="input-control text">
+            <input type="text" placeholder="(optional)" name="ApplicationName" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        }
+        @if(!user.CustomerID.HasValue)
+        {
+        <tr><td>Customer</td><td>
+          <div class="input-control text">
+            <input type="text" placeholder="(optional)" name="CustomerName" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        }
+        <tr><td>Admin</td><td>
+          <div class="input-control text">
+            <input type="text" name="Admin" value="False" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+
+        <tr><td> &nbsp; </td><td><br /><br /><br /><br /><input type="submit" value="Create" /></td></tr>
+
+      </table>
+    }
+
+  </div>
+</div>

@@ -1,0 +1,187 @@
+﻿@using Feebl
+@model Feebl.Controllers.ProcessTile
+@{ var showAll = Model.Events.Count > 13; }
+
+<div class="tiles">
+
+  <h2>Process details @Model.Application @@ @Model.Customer</h2>
+    
+  <div class="tile bg-color-darken outline-color-darken image">
+    <div class="tile-content">
+      <a class="back-button big" href="@Url.Content("~/Process?applicationID=" + Model.ApplicationID + "&customerID=" + Model.CustomerID)"></a>
+    </div>
+  </div>
+  
+  <a href="@Url.Content("~/Process?applicationID=" + Model.ApplicationID + "&customerID=" + Model.CustomerID)">
+    <div class="tile double outline-color-pink" data-role="tile-slider" data-param-period="3000" data-param-direction="down">
+      <div class="tile-content @Model.Status">
+        <br /><br />
+        <h1>@Model.Name</h1>
+      </div>
+      <div class="tile-content bg-color-blueDark">
+        <br /><br /><br />
+        <span>@Model.Application @@</span>
+        <h1>@Model.Customer</h1>
+      </div>
+      <div class="brand">
+        <span class="name">@Model.ErrorMessage</span>
+        <div class="badge @Model.Badge"></div>
+      </div>
+    </div>
+  </a>
+  
+  @{ var color = (showAll ? "orange" : "pink"); }
+  <a href="@Url.Content("~/Demand?showAll="+ (showAll ? "false" : "true") + "&processID=" + @Model.ProcessID)">
+    <div class="tile double-vertical bg-color-@color" data-role="tile-slider" data-param-period="3000" data-param-direction="up">
+      @for(var i = 0; i<Math.Ceiling(Model.Events.Count/13d); i++)
+      {
+        <div class="tile-content">
+          <table class="hovered">
+            @foreach (var e in Model.Events.Skip(i*13).Take(13))
+            { 
+              <tr>
+                <td style="padding: 0;"><small>@Feebl.DateTimeExtensions.ConvertToCET(e.CreationTime).ToString("MM/dd HH:mm")</small></td>
+                <td style="padding: 0;"> &nbsp; <small>@Feebl.Utilities.Methods.GetCounterValue(e.Counter)</small></td>
+              </tr>
+            }
+          </table>
+        </div>
+      }
+    </div>
+  </a>
+
+  <div class="tile bg-color-purple triple double-vertical" data-role="tile-slider" data-param-period="3000" data-param-direction="up">
+    @for (var i = 0; i < Math.Ceiling(Model.Demands.Count / 10d); i++)
+    {
+      <div class="tile-content">
+        <table class="hovered">
+          <tr>
+            <th></th>
+            <th>Cron</th>
+            <th>RT</th>
+            <th>QT</th>
+            <th>Q#</th>
+          </tr>
+          @foreach (var item in Model.Demands.Skip(i * 10).Take(10))
+          {
+            <tr>
+              <td>
+                @if (User.IsInRole("Admin"))
+                {
+                  <a class="icon-pencil" href="@Url.Content("~/Demand/Edit/" + item.DemandID)"></a>
+                  <a class="icon-cancel-2" href="@Url.Content("~/Demand/Delete/" + item.DemandID)"></a>
+                }
+              </td>
+              <td>@item.CronExpression</td>
+              <td>@Feebl.Utilities.Methods.GetTimeFromMinutes(item.MaxRunTime)</td>
+              <td>@Feebl.Utilities.Methods.GetTimeFromMinutes(item.QuantityTime)</td>
+              <td>@Feebl.Utilities.Methods.GetCounterValue(item.QuantityValue)</td>
+            </tr>
+          }
+        </table>
+      </div>
+    }
+  </div>
+
+  <div class="tile bg-color-pink" data-role="tile-slider" data-param-period="4000" data-param-direction="left">
+    <div class="tile-content">
+      <br />
+      <h1>Events today</h1><br /><br />
+      @{var eventSize = (90 - (Model.EventsToday.ToString().Length * 10)) + "px";}
+      <h1 style="font-size: @eventSize !important;">@Model.EventsToday</h1>
+    </div>
+    <div class="tile-content">
+      <br />
+      @{var countSize = (90 - (Model.CountsToday.ToString().Length * 10)) + "px";}
+      <h1>Count today</h1><br /><br />
+      <h1 style="font-size: @countSize !important;">@Model.CountsToday</h1>
+    </div>
+     <div class="tile-content">
+      <br />
+      @{var failSize = (90 - (Model.FailsToday.ToString().Length * 10)) + "px";}
+      <h1>Fails today</h1><br /><br />
+      <h1 style="font-size: @failSize !important;">@Model.FailsToday</h1>
+    </div>
+  </div>
+
+  @if (Model.History.Count > 0)
+  {
+    <div class="tile bg-color-orange" data-role="tile-slider" data-param-period="2500" data-param-direction="up">
+      @for (var i = 0; i < Math.Ceiling(Model.History.Count / 6d); i++)
+      {
+        <div class="tile-content">
+          <table class="hovered">
+          @foreach (var h in Model.History.Skip(i * 6).Take(6))
+          {
+            var cls = h.Status == "Failed" ? "error" : "success";
+            <tr class="@cls" style="border: 0;">
+              <td style="padding: 0; border: 0;"> &nbsp; @h.Status[0]</td>
+              <td style="padding: 0; border: 0;">
+                <small>
+                  @if(String.IsNullOrEmpty(h.Remark)){
+                    @Feebl.DateTimeExtensions.ConvertToCET(h.CreationTime).ToString("MM/dd HH:mm")
+                  } else {
+                    <abbr title="@h.Remark">@Feebl.DateTimeExtensions.ConvertToCET(h.CreationTime).ToString("MM/dd HH:mm")</abbr>
+                  }
+                </small>
+              </td>
+            </tr>
+          }
+          </table>
+        </div>
+      }
+    </div>
+  }
+
+  @if (User.IsInRole("Admin"))
+  {
+    <div class="tile bg-color-teal outline-color-pink image">
+        <div class="tile-content">
+
+        @using (Html.BeginForm())
+        {
+          if (Model.Demands.Any(d => !d.IsMet))
+          {
+            <textarea name="remark" placeholder="How did you solve it, or why did you ignore this?" style="min-height: 85px; margin: 5px 5px 0 5px; width: 135px; color: black;"></textarea>
+          }
+          else
+          {
+            var nextRunTime = (from d in Model.Demands
+              where d.NextRunTime.HasValue
+              orderby d.NextRunTime ascending
+              select d.NextRunTime.Value.AddMinutes(d.MaxRunTime ?? 0)).FirstOrDefault();
+
+            <h1 style="margin: 5px;">Next Check Time</h1>
+            <h1 style="margin: 5px; font-size: 28px !important;">@nextRunTime.ToCET().ToString("MM/dd HH:mm")</h1><br /><br />
+          }
+
+          <input type="hidden" name="processID" value="@Model.ProcessID" />
+          <input type="text" name="ignoreUntil" placeholder="Until (yyyy/MM/dd HH:mm)" style="margin: 0 5px 0 5px; width: 135px;" />
+          <input type="submit" style="width: 135px; margin: 0 5px 0 5px;" value="Ignore" />
+        }
+
+        </div>
+      </div>
+  }
+
+  @if (User.Identity.IsAuthenticated)
+  {
+    <div>
+      @if (User.IsInRole("Admin"))
+      {
+        <a href="@Url.Content("~/Demand/Create/" + Model.ProcessID)" class="icon-plus-2" style="font-size: 30px;">&nbsp;</a><br />
+      }
+  
+      <a href="@Url.Content("~/Demand/Subscribe/" + Model.ProcessID + "?type=email")" class="icon-mail @(Model.SubscribedEmail ? "subscribed" : "")" style="font-size: 30px;">&nbsp;</a><br />
+      <a href="@Url.Content("~/Demand/Subscribe/" + Model.ProcessID + "?type=sms")" class="icon-comments @(Model.SubscribedSMS ? "subscribed" : "")" style="font-size: 30px;">&nbsp;</a>
+    </div>
+  }
+    
+</div>
+
+@if (!showAll)
+{
+  <script type="text/javascript">
+    setTimeout("location.reload(true);", 30000);
+  </script>
+}

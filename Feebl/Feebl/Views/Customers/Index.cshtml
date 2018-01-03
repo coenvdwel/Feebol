@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Feebl.Controllers.CustomerTile>
+@{int counter = 0;}
+
+<div class="tiles">
+
+  @{
+    Feebl.Controllers.CustomerTile application = Model.First();
+    if (String.IsNullOrEmpty(application.Application)){ application = null; }
+  }
+
+  @if (application != null)
+  {
+    <h2>@application.Application customers</h2>
+    
+    <div class="tile bg-color-darken outline-color-darken image">
+      <div class="tile-content">
+        <a class="back-button big" href="@Url.Content("~/Applications")"></a>
+      </div>
+    </div>
+  }
+
+  @foreach (var dt in Model)
+  {
+    <a href="@(application == null ? Url.Content("~/Applications") : Url.Content("~/Process"))?customerID=@dt.CustomerID&amp;applicationID=@dt.ApplicationID">
+      <div class="tile double outline-color-pink @dt.Status">
+        <div class="tile-content">
+          <br /><br /><br /><br />
+          <h1>@dt.Customer</h1>
+        </div>
+        <div class="brand">
+          <span class="name">@(dt.LastRunTime.HasValue ? Feebl.DateTimeExtensions.ConvertToCET(dt.LastRunTime.Value).ToString("MM/dd HH:mm") : "")</span>
+        </div>
+      </div>
+    </a>
+    
+    foreach (var pt in dt.Errors)
+    {
+      var selected = (pt.SubscribedEmail || pt.SubscribedSMS) ? "selected" : "";
+      <a href="@Url.Content("~/Demand")?processID=@pt.ProcessID">
+        <div class="tile outline-color-pink @pt.Status @selected" data-role="tile-slider" data-param-period="3000" data-param-direction="@Feebl.Utilities.Lists.Directions[counter++ % 4]">
+          <div class="tile-content">
+            <br />
+            <h1>@pt.Name</h1>
+          </div>
+          <div class="tile-content bg-color-orangeDark">
+            <br /><br /><br />
+            <span>@pt.Application @@</span>
+            <h1>@pt.Customer</h1>
+          </div>
+          <div class="brand">
+            <span class="name">@pt.ErrorMessage</span>
+            <div class="badge @pt.Badge"></div>
+          </div>
+        </div>
+      </a>
+    }
+  }
+
+  <div style="margin-bottom: 30px;" class="tile bg-color-blue fg-color-white outline-color-pink" data-role="tile-slider" data-param-period="5000" data-param-direction="@Feebl.Utilities.Lists.Directions[counter++ % 4]">
+    <div class="tile-content">
+      <br /><br /><br /><br />
+      <img src="@Url.Content("~/Content/images/logo.png")" alt="Diract" width="110" />
+    </div>
+    <div class="tile-content bg-color-blueDark">
+      build 6213<br />
+      revision 26908<br /><br /><br /><br />
+      <img src="@Url.Content("~/Content/images/payoff.png")" alt="Diract" width="110" />
+    </div>
+    <div class="brand">
+      <span class="name">@Feebl.DateTimeExtensions.ConvertToCET(DateTime.UtcNow).ToString("MM/dd HH:mm")</span>
+      <div class="badge fg-color-white activity"></div>
+    </div>
+  </div>
+    
+
+</div>
+
+<script type="text/javascript">
+  setTimeout("location.reload(true);", 30000);
+</script>

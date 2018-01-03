@@ -1,0 +1,22 @@
+﻿@model Feebl.User
+
+<div class="tile bg-color-darken outline-color-darken image">
+  <div class="tile-content">
+    <a class="back-button big" href="@Url.Content("~/Users")"></a>
+  </div>
+</div>
+
+<div class="tile double outline-color-pink bg-color-red">
+  <div class="tile-content">
+    
+    <br /><br />
+    <h1 style="font-size: 90px !important;">ORLY?</h1>
+    <br /><br />
+    @using (Html.BeginForm())
+    {
+      <input type="submit" value="YESPLX" />
+      <a href="@Url.Content("~/Users")">nothnx</a>
+    }
+
+  </div>
+</div>

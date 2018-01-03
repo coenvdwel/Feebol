@@ -1,0 +1,60 @@
+﻿@model Feebl.Controllers.UserTile
+@{var user = (Feebl.Utilities.FeeblIdentity)Feebl.Utilities.FeeblPrincipal.Current.Identity;}
+
+<div class="tile bg-color-darken outline-color-darken image">
+  <div class="tile-content">
+    <a class="back-button big" href="@Url.Content("~/Users")"></a>
+  </div>
+</div>
+
+<div class="tile triple double-vertical outline-color-pink bg-color-orange">
+  <div class="tile-content">
+    
+    @using (Html.BeginForm())
+    {
+      <table class="compact">
+        <tr style="margin:0;padding:0;"><td>Email</td><td>
+          <div class="input-control text">
+            <input type="text" name="Email" autocomplete="off" value="@Model.Email" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        <tr><td>Mobile</td><td>
+          <div class="input-control text">
+            <input type="text" placeholder="(optional)" name="Mobile" value="@Model.Mobile" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        @if(!user.ApplicationID.HasValue)
+        {
+        <tr><td>Application</td><td>
+          <div class="input-control text">
+            <input type="text" placeholder="(optional)" name="ApplicationName" value="@Model.Application" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        }
+        @if(!user.CustomerID.HasValue)
+        {
+        <tr><td>Customer</td><td>
+          <div class="input-control text">
+            <input type="text" placeholder="(optional)" name="CustomerName" value="@Model.Customer" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        }
+        <tr><td>Admin</td><td>
+          <div class="input-control text">
+            <input type="text" name="Admin" value="@(Model.IsAdmin ? "True" : "False")" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+
+        <tr><td> &nbsp; </td><td> <input type="checkbox" name="ResetPassword" /> Reset password </td></tr>
+        <tr><td> &nbsp; </td><td><br /><br /><br /><input type="submit" value="Edit" /> &nbsp; <input type="button" style="background-color: red;" onclick="location.href = '@Url.Content("~/Users/Delete/" + Model.UserID)  '; return false;" value="DELETE" /></td></tr>
+
+      </table>
+    }
+
+  </div>
+</div>

@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Feebl</title>
+
+  <!--- make it like an iPhone app -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <!-- scale on iphone 5 -->
+  <meta name="viewport" content="initial-scale=0.45">
+
+  <!-- fancy icon, too -->
+  <link rel="apple-touch-icon" sizes="57x57" href="@Url.Content("~/Content/icons/icon-57x57.png")">
+  <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/icons/icon-72x72.png")">
+  <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/icons/icon-114x114.png")">
+  <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/icons/icon-144x144.png")">
+
+  <!-- and a startup image -->
+  <link rel="apple-touch-startup-image" media="(device-width: 320px)" href="@Url.Content("~/Content/icons/startup-320x460.png")">
+  <link rel="apple-touch-startup-image" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" href="@Url.Content("~/Content/icons/startup-640x920.png")">
+  <link rel="apple-touch-startup-image" media="(device-width: 768px) and (orientation: portrait)" href="@Url.Content("~/Content/icons/startup-768x1004.png")">
+  <link rel="apple-touch-startup-image" media="(device-width: 768px) and (orientation: landscape)" href="@Url.Content("~/Content/icons/startup-748x1024.png")">
+  <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="@Url.Content("~/Content/icons/startup-640x1096.png")">
+  <link rel="apple-touch-startup-image" media="(device-width: 768px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" href="@Url.Content("~/Content/icons/startup-1536x2008.png")">
+  <link rel="apple-touch-startup-image" media="(device-width: 768px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" href="@Url.Content("~/Content/icons/startup-1496x2048.png")">
+
+  <link href="@Url.Content("~/Content/css/site.css?v=201401071008")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/Content/css/modern.css")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/Content/css/modern-responsive.css")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/Content/css/theme-dark.css")" rel="stylesheet" type="text/css" />
+  
+  <script type="text/javascript">
+    (function (document, navigator, standalone) {
+      if ((standalone in navigator) && navigator[standalone]) {
+        var chref, curnode, location = document.location, stop = /^(a|html)$/i;
+        document.addEventListener('click', function (e) {
+          curnode = e.target;
+          while (!(stop).test(curnode.nodeName)){
+            curnode = curnode.parentNode;
+          }
+          if ('href' in curnode &&                                            // is a link
+						(chref = curnode.href).replace(location.href, '').indexOf('#') && // is not an anchor
+						(!(/^[a-z\+\.\-]+:/i).test(chref) ||                              // either does not have a proper scheme (relative links)
+							chref.indexOf(location.protocol + '//' + location.host) === 0)  // or is in the same protocol and domain
+					){
+            e.preventDefault();
+            location.href = curnode.href;
+          }
+        }, false);
+      }
+    })(document, window.navigator, 'standalone');
+	</script>
+
+  <script src="@Url.Content("~/Content/javascript/jquery-1.9.0.min.js")" type="text/javascript"></script>
+  <!--<script src="@Url.Content("~/Content/javascript/tile-drag.js")" type="text/javascript"></script>-->
+  <script src="@Url.Content("~/Content/javascript/tile-slider.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/Content/javascript/input-control.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/Content/javascript/buttonset.js")" type="text/javascript"></script>
+
+</head>
+<body class="metrouicss">
+
+	<script type="text/javascript">
+	  $(document).ready(function () { $(".message").animate({ top: $(window).height() - ($(".message").height()+20) }, 1000); });
+		setTimeout(function () { $(".message").fadeOut(); }, 5000);
+	</script>
+
+  @if (TempData["Error"] != null)
+  {
+		<div class="message bg-color-red fg-color-white" onclick="$(this).fadeOut()">
+      <br /><strong>Error </strong>
+			<span>@TempData["Error"]</span>
+			<br /><br />
+    </div>
+  }
+
+  @if (TempData["Success"] != null)
+  {
+		<div class="message bg-color-greenLight fg-color-white" onclick="$(this).fadeOut()">
+			<br /><strong>Success! </strong>
+			<span>@TempData["Success"]</span>
+			<br /><br />
+		</div>
+  }
+
+  <div id="main">
+
+    <div class="nav-bar bg-color-darken">
+      <ul class="menu">
+        <li><a href="@Url.Content("~/Applications")">Applications</a> &nbsp; </li>
+        <li><a href="@Url.Content("~/Customers")">Customers</a> &nbsp; </li>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+          <li><a href="@Url.Content("~/ChangePassword")">Change Password</a> &nbsp; </li>
+          
+          var user = (Feebl.Utilities.FeeblIdentity)Feebl.Utilities.FeeblPrincipal.Current.Identity;
+          if (user.IsAdmin)
+          {
+            <li><a href="@Url.Content("~/Users")">Users</a> &nbsp; </li>
+          }
+          
+          <li><a href="@Url.Content("~/LogOn/LogOff")">Log Off</a> &nbsp; </li>
+        }
+        else
+        {
+          <li><a href="@Url.Content("~/LogOn")">Log On</a> &nbsp; </li>
+        }
+      </ul>
+    </div>
+
+    <br />
+
+    @RenderBody()
+
+  </div>
+</body>
+</html>

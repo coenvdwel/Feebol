@@ -1,0 +1,40 @@
+﻿@model Feebl.User
+
+<div class="tile bg-color-darken outline-color-darken image">
+  <div class="tile-content">
+    <a class="back-button big" href="@Url.Content("~")"></a>
+  </div>
+</div>
+
+<div class="tile triple outline-color-pink bg-color-blue">
+  <div class="tile-content">
+    
+    @using (Html.BeginForm())
+    {
+      <table class="compact">
+        <tr style="margin:0;padding:0;"><td>Current password</td><td>
+          <div class="input-control password">
+            <input type="password" name="CurrentPassword" />
+            <button class="btn-reveal" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        <tr style="margin:0;padding:0;"><td>New password</td><td>
+          <div class="input-control password">
+            <input type="password" name="NewPassword" />
+            <button class="btn-reveal" tabindex="-1" type="button"></button>
+          </div>
+          </td></tr>
+        <tr style="margin:0;padding:0;"><td>New password (repeat)</td><td>
+          <div class="input-control password">
+            <input type="password" name="NewPassword2" />
+            <button class="btn-reveal" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+
+        <tr><td> &nbsp; </td><td><input type="submit" value="Change" /></td></tr>
+
+      </table>
+    }
+
+  </div>
+</div>

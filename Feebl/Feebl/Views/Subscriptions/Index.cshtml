@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Feebl.Controllers.SubscriptionTile>
+
+<div class="tiles">
+
+  @foreach (var g in Model.GroupBy(u => (u.Customer + " " + u.Application).Trim()))
+  {
+    <div class="tile-group">
+
+      <h2>@g.Key</h2>
+
+      @foreach (var u in g)
+      {
+        <div class="tile outline-color-pink bg-color-grey">
+          <div class="tile-content">
+            <br />
+            <h1>@u.Name</h1>
+            
+            <div class="brand">
+              
+              &nbsp;
+
+              @if (u.Email)
+              {
+                <a href="@(User.IsInRole("Admin") ? Url.Content("~/Subscriptions/Subscribe/" + u.ProcessID + "?userID=" + u.UserID + "&type=email") : "#")" class="icon-mail subscribed" style="font-size: 20px;">&nbsp;</a>
+              }
+              @if (u.SMS)
+              {
+                <a href="@(User.IsInRole("Admin") ? Url.Content("~/Subscriptions/Subscribe/" + u.ProcessID + "?userID=" + u.UserID + "&type=sms") : "#")" class="icon-comments subscribed" style="font-size: 20px;">&nbsp;</a>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+    </div>
+  }
+
+</div>

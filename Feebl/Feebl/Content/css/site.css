@@ -1,0 +1,103 @@
+﻿.metrouicss #main
+{
+  padding: 20px 0 0 20px !important;
+}
+
+.metrouicss ul.menu
+{
+  list-style-type: none !important;
+  margin-left: 0 !important;
+}
+
+.metrouicss ul.menu li
+{
+  display: inline !important;
+}
+
+.metrouicss ul.menu li a
+{
+  color: #CCC;
+}
+
+.metrouicss ul.menu li a:hover
+{
+  color: #CCC;
+  text-decoration: overline;
+}
+
+.metrouicss ul.menu li a:active
+{
+  color: #FFF;
+  text-decoration: overline;
+}
+
+.metrouicss input
+{
+  color: #000 !important;
+}
+
+.metrouicss .message
+{
+  width: 33%;
+	position: absolute;
+  right: 10px;
+  top: -100px;
+	z-index: 999999;
+	padding: 2px;
+}
+
+.metrouicss .badge
+{
+  background-color: transparent !important;
+}
+
+.tile-group
+{
+  margin-right: 0 !important;
+}
+
+.tile-group > h2
+{
+  color: #EEE !important;
+  margin-top: 10px !important;
+}
+
+.tile h1
+{
+  font-size: medium !important;
+  font-weight: normal !important;
+}
+
+.tiles h2
+{
+  color: #EEE !important;
+  margin-top: 10px !important;
+  margin-bottom: 40px !important;
+}
+
+.compact, .compact tr, .compact td, .compact div, .compact input
+{
+  border: 0px !important;
+  margin: 0 !important;
+  padding: 1px !important;
+}
+
+.icon-mail, .icon-comments, .icon-plus-2
+{
+  color: #444 !important;
+}
+
+.icon-mail:hover, .icon-comments:hover, .icon-plus-2:hover
+{
+  color: #99b433 !important;
+}
+
+.subscribed
+{
+  color: #EEE !important;
+}
+
+.subscribed:hover
+{
+  color: #ff4646 !important;
+}

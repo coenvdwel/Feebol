@@ -1,0 +1,58 @@
+﻿@{var user = (Feebl.Utilities.FeeblIdentity)Feebl.Utilities.FeeblPrincipal.Current.Identity;}
+
+<div class="tile bg-color-darken outline-color-darken image">
+  <div class="tile-content">
+    <a class="back-button big" href="@Url.Content("~/Users")"></a>
+  </div>
+</div>
+
+<div class="tile triple double-vertical outline-color-pink bg-color-orange">
+  <div class="tile-content">
+    
+    @using (Html.BeginForm())
+    {
+      <table class="compact">
+        <tr style="margin:0;padding:0;"><td>Message</td><td>
+          <div class="input-control textarea">
+            <textarea name="Message" style="color: black !important;"></textarea>
+          </div>
+        </td></tr>
+        <tr><td>Application</td><td>
+        @if(!user.ApplicationID.HasValue)
+        {
+          <div class="input-control text">
+            <input type="text" placeholder="(optional)" name="ApplicationName" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        } else {
+            <p>You will broadcast to your application only.</p>
+        }
+        </td></tr>
+        <tr><td>Customer</td><td>
+        @if (!user.CustomerID.HasValue)
+        {
+            <div class="input-control text">
+              <input type="text" placeholder="(optional)" name="CustomerName" />
+              <button class="btn-clear" tabindex="-1" type="button"></button>
+            </div>
+        }
+        else
+        {
+          <p>
+            You will broadcast to your customers only.
+          </p>
+        }
+        </td></tr>
+        <tr><td>SMS</td><td>
+          <div class="input-control text">
+            <input type="text" name="SMS" value="No" />
+          </div>
+        </td></tr>
+
+        <tr><td> &nbsp; </td><td><br /><br /><input type="submit" value="Send" /></td></tr>
+
+      </table>
+    }
+
+  </div>
+</div>

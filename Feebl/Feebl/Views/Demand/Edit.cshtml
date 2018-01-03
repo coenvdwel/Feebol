@@ -1,0 +1,61 @@
+﻿@model Feebl.Demand
+
+<div class="tile bg-color-darken outline-color-darken image">
+  <div class="tile-content">
+    <a class="back-button big" href="#" onclick="history.go(-1); return false;"></a>
+  </div>
+</div>
+
+<div class="tile triple double-vertical outline-color-pink bg-color-greenLight">
+  <div class="tile-content">
+    
+    @using (Html.BeginForm())
+    {
+      <table class="compact">
+        <tr style="margin:0;padding:0;"><td>Cron Expression</td><td>
+          <div class="input-control text">
+            <input type="text" name="CronExpression" value="@Model.CronExpression" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        <tr><td>Max Run Time</td><td>
+          <div class="input-control text">
+            <input type="text" placeholder="(minutes)" name="MaxRunTime" value="@Model.MaxRunTime" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        <tr><td>Quantity Time</td><td>
+          <div class="input-control text">
+            <input type="text" name="QuantityTime" placeholder="(optional, minutes)" value="@Model.QuantityTime" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        <tr><td>Quantity Value</td><td>
+          <div class="input-control text">
+            <input type="text" name="QuantityValue" placeholder="(optional)" value="@Model.QuantityValue" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        <tr><td>Comment</td><td>
+          <div class="input-control text">
+            <input type="text" name="Comment" value="@Model.Comment" />
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+          </div>
+        </td></tr>
+        <tr><td>Priority</td><td>
+          <div class="input-control text">
+            <select name="Priority" style="color: black !important;">
+              <option value="-100" @(Model.Priority < 0 ? "selected" : "")>Low</option>
+              <option value="0" @(Model.Priority == 0 ? "selected" : "")>Normal</option>
+              <option value="100" @(Model.Priority > 0 ? "selected" : "")>High</option>
+            </select>
+          </div>
+        </td></tr>
+
+        <tr><td> &nbsp; </td><td><br /><br /><input type="submit" value="Edit" /></td></tr>
+
+      </table>
+    }
+
+  </div>
+</div>

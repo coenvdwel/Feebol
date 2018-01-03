@@ -1,0 +1,32 @@
+﻿@model Feebl.User
+
+<div class="tile bg-color-darken outline-color-darken image">
+  <div class="tile-content">
+    <a class="back-button big" href="@Url.Content("~")"></a>
+  </div>
+</div>
+
+<div class="tile double outline-color-pink bg-color-greenLight">
+  <div class="tile-content">
+    
+    @using (Html.BeginForm())
+    {  
+      <div class="input-control text">
+        <input type="text" placeholder="Enter email" name="Email" />
+        <button class="btn-clear" tabindex="-1" type="button"></button>
+      </div>
+      <div class="input-control password">
+        <input type="password" placeholder="Enter password" name="Password" />
+        <button class="btn-reveal" tabindex="-1" type="button"></button>
+      </div>
+
+      <input type="submit" value="Log On" />
+
+      <label class="input-control switch" style="float: right;">
+        <input type="checkbox" name="Remember">
+        <span class="helper" style="font-size: smaller !important;">Remember</span>
+      </label>
+    }
+
+  </div>
+</div>
